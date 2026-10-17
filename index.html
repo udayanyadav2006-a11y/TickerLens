@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TickerLens - Stock Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f1f5f9;
+      color: #172554;
+    }
+    header {
+      background: #14213d;
+      color: white;
+      padding: 24px;
+      text-align: center;
+    }
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      flex: 1;
+      min-width: 180px;
+      box-shadow: 0 2px 8px #cbd5e1;
+    }
+    .price { font-size: 26px; font-weight: bold; }
+    .green { color: #15803d; }
+    footer { text-align: center; padding: 20px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>TickerLens</h1>
+    <p>Your Simple Stock Market Dashboard</p>
+  </header>
+
+  <main>
+    <h2>Market Overview</h2>
+    <p>Sample demonstration values — not live market prices.</p>
+
+    <div class="cards">
+      <div class="card">
+        <h3>RELIANCE</h3>
+        <p class="price">₹1,450.00</p>
+        <p class="green">+1.8% (sample)</p>
+      </div>
+      <div class="card">
+        <h3>TCS</h3>
+        <p class="price">₹3,200.00</p>
+        <p class="green">+0.9% (sample)</p>
+      </div>
+      <div class="card">
+        <h3>INFOSYS</h3>
+        <p class="price">₹1,500.00</p>
+        <p class="green">+1.2% (sample)</p>
+      </div>
+    </div>
+
+    <h2>Project Status</h2>
+    <p id="status">TickerLens Version 1 — Ready for deployment.</p>
+  </main>
+
+  <footer> TickerLens | Cloud Computing and DevOps CCA 2 </footer>
+</body>
+</html>
