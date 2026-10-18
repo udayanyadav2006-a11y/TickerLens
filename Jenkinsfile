@@ -25,3 +25,19 @@ stage('Build Docker Image') {
 
     }
 }
+
+stage('Push to Docker Hub') {
+    steps {
+        withCredentials([usernamePassword(
+            credentialsId: '160d0519-60b0-4746-8a5d-7467d1db5934',
+            usernameVariable: 'DOCKER_USER',
+            passwordVariable: 'DOCKER_PASS'
+        )]) {
+            bat '''
+                "C:\\Users\\Prachi\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" login -u "%DOCKER_USER%" -p "%DOCKER_PASS%"
+                "C:\\Users\\Prachi\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" push udayan123/tickerlens:v1
+            '''
+        }
+    }
+}
+
