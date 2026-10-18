@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -20,24 +19,23 @@ pipeline {
             steps {
                 bat '''
                     set DOCKER_HOST=npipe:////./pipe/dockerDesktopLinuxEngine
-                    "C:\\Users\\Prachi\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" build -t udayan123/tickerlens:v1 .
+                    "C:\\Users\\Prachi\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" build -t 322824641733.dkr.ecr.ap-south-1.amazonaws.com/tickerlens:v1 .
                 '''
             }
         }
 
-        stage('Push to Docker Hub') {
+        stage('Push to AWS ECR') {
             steps {
-                withCredentials([usernamePassword(
-                    credentialsId: '160d0519-60b0-4746-8a5d-7467d1db5934',
-                    usernameVariable: 'DOCKER_USER',
-                    passwordVariable: 'DOCKER_PASS'
-                )]) {
-                    bat '''
-                        set DOCKER_HOST=npipe:////./pipe/dockerDesktopLinuxEngine
-                        echo %DOCKER_PASS% | "C:\\Users\\Prachi\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" login -u "%DOCKER_USER%" --password-stdin
-                        "C:\\Users\\Prachi\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" push udayan123/tickerlens:v1
-                    '''
-                }
+                bat '''
+                    set DOCKER_HOST=npipe:////./pipe/dockerDesktopLinuxEngine
+                    aws ecr get-login-password --region ap-south-1 > ecr-password.txt
+                    if errorlevel 1 exit /b 1
+                    "C:\\Users\\Prachi\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" login --username AWS --password-stdin 322824641733.dkr.ecr.ap-south-1.amazonaws.com < ecr-password.txt
+                    if errorlevel 1 exit /b 1
+                    "C:\\Users\\Prachi\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" push 322824641733.dkr.ecr.ap-south-1.amazonaws.com/tickerlens:v1
+                    if errorlevel 1 exit /b 1
+                    del ecr-password.txt
+                '''
             }
         }
     }
