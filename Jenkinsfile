@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -20,6 +21,7 @@ pipeline {
                 bat '''
                     set DOCKER_HOST=npipe:////./pipe/dockerDesktopLinuxEngine
                     "C:\\Users\\Prachi\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" build -t 322824641733.dkr.ecr.ap-south-1.amazonaws.com/tickerlens:v1 .
+                    if errorlevel 1 exit /b 1
                 '''
             }
         }
@@ -28,12 +30,22 @@ pipeline {
             steps {
                 bat '''
                     set DOCKER_HOST=npipe:////./pipe/dockerDesktopLinuxEngine
-                    aws ecr get-login-password --region ap-south-1 > ecr-password.txt
+
+                    "C:\\Prachi KOP\\aws.exe" ecr get-login-password --region ap-south-1 > ecr-password.txt
                     if errorlevel 1 exit /b 1
+
                     "C:\\Users\\Prachi\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" login --username AWS --password-stdin 322824641733.dkr.ecr.ap-south-1.amazonaws.com < ecr-password.txt
-                    if errorlevel 1 exit /b 1
+                    if errorlevel 1 (
+                        del ecr-password.txt
+                        exit /b 1
+                    )
+
                     "C:\\Users\\Prachi\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" push 322824641733.dkr.ecr.ap-south-1.amazonaws.com/tickerlens:v1
-                    if errorlevel 1 exit /b 1
+                    if errorlevel 1 (
+                        del ecr-password.txt
+                        exit /b 1
+                    )
+
                     del ecr-password.txt
                 '''
             }
