@@ -16,10 +16,12 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                bat '"C:\\Users\\Prachi\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" build -t tickerlens:v1 .'
-            }
-        }
+        
+stage('Build Docker Image') {
+    steps {
+        bat 'set DOCKER_HOST=npipe:////./pipe/dockerDesktopLinuxEngine && "C:\\Users\\Prachi\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.exe" build -t tickerlens:v1 .'
+    }
+}
+
     }
 }
